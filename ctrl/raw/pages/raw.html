@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Raw web page that is going to be incremented with react and other libraries"
+    />
+    <link rel="stylesheet" href="../css/raw.css" />
+    <title>Building Ctrl</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar">
+        <div class="left-floating">
+          <div class="breadcrumbs">
+            <button id="back">&lt;</button><span id="back-to">Controladoria</span>
+          </div>
+        </div>
+
+        <div class="right-floating">
+          <ul class="inline-list">
+            <li id="sync-icon">
+              <img src="../assets/Cloud.svg" alt="sincronia" />
+            </li>
+            <li id="fiscal-year" class="upper-label">
+              <label for="year-select">Ano</label>
+              <select name="selected-year" id="year-select">
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+              </select>
+            </li>
+            <li id="organization" class="upper-label">
+              <label for="organization-select">Organiza&ccedil;&atilde;o</label>
+              <select name="selected-organization" id="organization-select">
+                <option value="SpaceX">SpaceX</option>
+                <option value="Tesla">Tesla</option>
+                <option value="Starlink">Starlink</option>
+                <option value="X">X</option>
+              </select>
+            </li>
+            <li id="user-profile">
+              <img src="../assets/Common Actions.svg" alt="profile" />
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <header>
+        <h1>Documentos n&atilde;o rateados</h1>
+      </header>
+      <section class="filtering">
+        <div class="binary-selector">
+          <button class="left-binary-selector-btn" id="by-titulo">Por t&iacute;tulo</button>
+          <button class="right-binary-selector-btn" id="by-lancamento">Por lan&ccedil;amento</button>
+        </div>
+        <div id="search-area">
+          <button id="search-btn">Pesquisar</button>
+          <input name="search-value"
+            type="text"
+            placeholder="Pesquisar por nome, estabelecimento ou valor" />
+        </div>
+        <div class="list-filters">
+          <ul class="inline-list">
+            <li><button id="btn-filter-emissao">Data de emiss&atilde;o</button></li>
+            <li><button id="btn-filter-vencimento">Data de vencimento</button></li>
+            <li><button id="btn-filter-fluxo">Fluxo</button></li>
+            <li><button id="btn-filter-estabelecimento">Estabelecimento</button></li>
+            <li><button id="btn-filter-situacao">Situa&ccedil;&atilde;o</button></li>
+            <li><button class="tertiary" id="btn-filter-clear">Limpar</button></li>
+          </ul>
+        </div>
+      </section>
+      <section id="doc-list">
+        <h1>Listagem dos documentos pendentes de rateio espec&iacute;fico no processamento de 10/10/2024 &agrave;s 14:00:00</h1>
+        <ul class="cards-list">
+          <li id="card-n titulo">
+            <ul class="inline-list">
+              <li><span class="card-status">Status</span></li>
+              <li><span class="card-info">
+                <label for="card-n-documento">Documento</label>
+                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
+              </span></li>
+              <li>
+              <span class="card-info">
+                <label for="card-n-conta">Conta</label>
+                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-fluxo">Fluxo</label>
+                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-estabelecimento">Estabelecimento</label>
+                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
+                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-valor">Valor</label>
+                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
+              </span></li>
+              <li><span class="card-info eager-info">
+                <label for="card-n-historico">Hist&oacute;rico</label>
+                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
+              </span></li>
+            </ul>
+          </li>
+          <li id="card-n titulo">
+            <ul class="inline-list">
+              <li><span class="card-status">Status</span></li>
+              <li><span class="card-info">
+                <label for="card-n-documento">Documento</label>
+                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
+              </span></li>
+              <li>
+              <span class="card-info">
+                <label for="card-n-conta">Conta</label>
+                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-fluxo">Fluxo</label>
+                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-estabelecimento">Estabelecimento</label>
+                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
+                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-valor">Valor</label>
+                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
+              </span></li>
+              <li><span class="card-info eager-info">
+                <label for="card-n-historico">Hist&oacute;rico</label>
+                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
+              </span></li>
+            </ul>
+          </li>
+          <li id="card-n titulo">
+            <ul class="inline-list">
+              <li><span class="card-status">Status</span></li>
+              <li><span class="card-info">
+                <label for="card-n-documento">Documento</label>
+                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
+              </span></li>
+              <li>
+              <span class="card-info">
+                <label for="card-n-conta">Conta</label>
+                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-fluxo">Fluxo</label>
+                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-estabelecimento">Estabelecimento</label>
+                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
+                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
+              </span></li>
+              <li><span class="card-info">
+                <label for="card-n-valor">Valor</label>
+                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
+              </span></li>
+              <li><span class="card-info eager-info">
+                <label for="card-n-historico">Hist&oacute;rico</label>
+                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
+              </span></li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>
