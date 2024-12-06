@@ -72,13 +72,11 @@
           </div>
           <div class="list-filters">
             <ul class="inline-list">
-              <li><button id="btn-filter-emissao" class="clickable">Data de emiss&atilde;o</button></li>
-              <li><button id="btn-filter-vencimento" class="clickable">Data de vencimento</button></li>
-              <li><button id="btn-filter-fluxo" class="clickable">Fluxo</button></li>
-              <li><button id="btn-filter-estabelecimento" class="clickable">Estabelecimento</button></li>
-              <li><button id="btn-filter-situacao" class="clickable">Situa&ccedil;&atilde;o</button></li>
-              <li><button class="tertiary clickable" id="btn-filter-clear">Limpar</button></li>
+              <li v-for="dataFilter in availableFilters">
+                <button class="clickable" v-bind:name="dataFilter.attr">{{ dataFilter.label }}</button>
+              </li>
             </ul>
+            <button class="tertiary clickable">Limpar</button>
           </div>
         </div>
         <div class="flex-container justify-right">
@@ -103,7 +101,9 @@
           <li v-for="titulo in titulos" :key="titulo.numero">
             <div class="card clickable" v-on:click="() => openModal(titulo)">
               <ul class="tips inline-list">
-                <li class="card-status warning" v-if="!titulo.rateado">A&ccedil;&atilde;o pendente</li>
+                <li class="card-status"
+                  v-bind:class="{ warning: !titulo.rateado, success: titulo.rateado }"
+                >{{ titulo.status }}</li>
               </ul>
               <ul class="data-info inline-list">
                 <li class="card-info primary">
@@ -159,7 +159,9 @@
           <li v-for="lancamento in lancamentos">
             <div class="card clickable" v-on:click="() => openModal(lancamento)">
               <ul class="tips inline-list">
-                <li class="card-status warning" v-if="!lancamento.rateado">A&ccedil;&atilde;o pendente</li>
+                <li class="card-status"
+                  v-bind:class="{ warning: !lancamento.rateado, success: lancamento.rateado}"
+                >{{ lancamento.status }}</li>
               </ul>
               <ul class="data-info inline-list">
                 <li class="card-info primary">
@@ -229,7 +231,9 @@
             <span class="primary">
               {{ selector == 'T' ? `N\u00FAmero: ${selectedDoc.numero}` : `Documento: ${selectedDoc.documento}` }}
             </span>
-            <span class="card-status warning">A&ccedil;&atilde;o pendente</span>
+            <span class="card-status"
+              v-bind:class="{ 'warning': !selectedDoc.rateado, 'success': selectedDoc.rateado }"
+            >{{ selectedDoc.status }}</span>
           </header>
           <main>
             <section class="doc-info">
@@ -408,12 +412,12 @@
                         <th class="th-delete"></th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr v-for="proj in selectedDoc.rateios['PR']">
+                          <td class="text-value">{{ proj.codigo }} - {{ proj.nome }}</td>
+                          <td class="numeric-value">{{ proj.valor | round2 }}</td>
+                          <td class="numeric-value">{{ proj.valor / selectedDoc.valor * 100  | round2 }}</td>
                           <td>
-                            <button class="delete-apport tertiary-btn danger">
+                            <button class="delete-apport tertiary-btn danger clickable">
                               <i class="fa-solid fa-xmark"></i>
                             </button>
                           </td>

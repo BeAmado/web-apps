@@ -225,6 +225,16 @@ main header h1 {
     border-right: 2px solid var(--brdr-color) !important;
 }
 
+.list-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.list-filters .inline-list {
+    width: auto;
+}
+
 .list-filters button {
     font-weight: 700;
     color: var(--primary-color);
@@ -299,6 +309,11 @@ main header h1 {
 
 .card-status.warning {
     background-color: var(--warning-color);
+}
+
+.card-status.success {
+    background-color: var(--success-color);
+    color: var(--bgnd-color)
 }
 
 .card-info label {
@@ -431,9 +446,25 @@ main header h1 {
 }
 
 .apports-table td:first-child {
-    min-width: 200px;
+    min-width: 100px;
 }
 
 .apports-table td:not(:first-child), .apports-table th:not(:first-child) {
     border-left: 1px solid black;
+}
+
+.apports-table td.numeric-value {
+    text-align: right;
+}
+
+.apports-table td.text-value {
+    text-align: left;
+}
+
+.apports-table th {
+    text-align: center;
+}
+
+.tertiary-btn.danger {
+    color: var(--danger-color);
 }
