@@ -8,15 +8,20 @@
       name="description"
       content="Raw web page that is going to be incremented with react and other libraries"
     />
+    <link rel="stylesheet" href="../css/all.css" />
+    <link rel="stylesheet" href="../css/fontawesome.css" />
+    <link rel="stylesheet" href="../css/fonts.css" />
+    <link rel="stylesheet" href="../css/nhids.css" />
     <link rel="stylesheet" href="../css/raw.css" />
     <title>Building Ctrl</title>
   </head>
   <body>
     <header>
-      <nav class="navbar">
+      <nav class="navbar clearfix">
         <div class="left-floating">
           <div class="breadcrumbs">
-            <button id="back">&lt;</button><span id="back-to">Controladoria</span>
+            <button class="back-btn clickable"><i class="fa-solid fa-arrow-left"></i></button>
+            <span id="back-to">Controladoria</span>
           </div>
         </div>
 
@@ -26,8 +31,8 @@
               <img src="../assets/Cloud.svg" alt="sincronia" />
             </li>
             <li id="fiscal-year" class="upper-label">
-              <label for="year-select">Ano</label>
-              <select name="selected-year" id="year-select">
+              <label class="upper-label" for="year-select">Ano de exerc&iacute;cio</label>
+              <select class="clickable" name="selected-year" id="year-select">
                 <option value="2024">2024</option>
                 <option value="2023">2023</option>
                 <option value="2022">2022</option>
@@ -36,8 +41,8 @@
               </select>
             </li>
             <li id="organization" class="upper-label">
-              <label for="organization-select">Organiza&ccedil;&atilde;o</label>
-              <select name="selected-organization" id="organization-select">
+              <label class="upper-label" for="organization-select">Organiza&ccedil;&atilde;o</label>
+              <select class="clickable" name="selected-organization" id="organization-select">
                 <option value="SpaceX">SpaceX</option>
                 <option value="Tesla">Tesla</option>
                 <option value="Starlink">Starlink</option>
@@ -45,146 +50,398 @@
               </select>
             </li>
             <li id="user-profile">
-              <img src="../assets/Common Actions.svg" alt="profile" />
+              <img class="clickable" src="../assets/Common Actions.svg" alt="profile" />
             </li>
           </ul>
         </div>
       </nav>
     </header>
-    <main>
+
+
+    <main id="ctrl-app">
       <header>
         <h1>Documentos n&atilde;o rateados</h1>
       </header>
       <section class="filtering">
-        <div class="binary-selector">
-          <button class="left-binary-selector-btn" id="by-titulo">Por t&iacute;tulo</button>
-          <button class="right-binary-selector-btn" id="by-lancamento">Por lan&ccedil;amento</button>
+        <div class="centered">
+          <div class="search-area">
+            <i class="fa-solid fa-search icon"></i>
+            <input name="search-value"
+              type="text"
+              placeholder="Pesquisar por nome, estabelecimento ou valor" />
+          </div>
+          <div class="list-filters">
+            <ul class="inline-list">
+              <li><button id="btn-filter-emissao" class="clickable">Data de emiss&atilde;o</button></li>
+              <li><button id="btn-filter-vencimento" class="clickable">Data de vencimento</button></li>
+              <li><button id="btn-filter-fluxo" class="clickable">Fluxo</button></li>
+              <li><button id="btn-filter-estabelecimento" class="clickable">Estabelecimento</button></li>
+              <li><button id="btn-filter-situacao" class="clickable">Situa&ccedil;&atilde;o</button></li>
+              <li><button class="tertiary clickable" id="btn-filter-clear">Limpar</button></li>
+            </ul>
+          </div>
         </div>
-        <div id="search-area">
-          <button id="search-btn">Pesquisar</button>
-          <input name="search-value"
-            type="text"
-            placeholder="Pesquisar por nome, estabelecimento ou valor" />
-        </div>
-        <div class="list-filters">
-          <ul class="inline-list">
-            <li><button id="btn-filter-emissao">Data de emiss&atilde;o</button></li>
-            <li><button id="btn-filter-vencimento">Data de vencimento</button></li>
-            <li><button id="btn-filter-fluxo">Fluxo</button></li>
-            <li><button id="btn-filter-estabelecimento">Estabelecimento</button></li>
-            <li><button id="btn-filter-situacao">Situa&ccedil;&atilde;o</button></li>
-            <li><button class="tertiary" id="btn-filter-clear">Limpar</button></li>
-          </ul>
+        <div class="flex-container justify-right">
+          <div class="info-selector">
+            <button id="by-titulo"
+              class="clickable"
+              v-on:click="selectTitulos"
+              v-bind:class="{ 'active': titulosIsActive }"
+            >Por t&iacute;tulo</button>
+            <button id="by-lancamento"
+              class="clickable"
+              v-on:click="selectLancamentos"
+              v-bind:class="{ 'active': lancamentosIsActive }"
+            >Por lan&ccedil;amento</button>
+          </div>
         </div>
       </section>
-      <section id="doc-list">
-        <h1>Listagem dos documentos pendentes de rateio espec&iacute;fico no processamento de 10/10/2024 &agrave;s 14:00:00</h1>
-        <ul class="cards-list">
-          <li id="card-n titulo">
-            <ul class="inline-list">
-              <li><span class="card-status">Status</span></li>
-              <li><span class="card-info">
-                <label for="card-n-documento">Documento</label>
-                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
-              </span></li>
-              <li>
-              <span class="card-info">
-                <label for="card-n-conta">Conta</label>
-                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-fluxo">Fluxo</label>
-                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-estabelecimento">Estabelecimento</label>
-                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
-                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-valor">Valor</label>
-                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
-              </span></li>
-              <li><span class="card-info eager-info">
-                <label for="card-n-historico">Hist&oacute;rico</label>
-                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
-              </span></li>
-            </ul>
+
+      <section class="doc-list">
+        <h1 class="hidden" aria-hidden="false">Listagem dos documentos pendentes de rateio espec&iacute;fico no processamento de 10/10/2024 &agrave;s 14:00:00</h1>
+        <ul class="cards-list" id="titulos-list" v-if="titulosIsActive">
+          <li v-for="titulo in titulos" :key="titulo.numero">
+            <div class="card clickable" v-on:click="() => openModal(titulo)">
+              <ul class="tips inline-list">
+                <li class="card-status warning" v-if="!titulo.rateado">A&ccedil;&atilde;o pendente</li>
+              </ul>
+              <ul class="data-info inline-list">
+                <li class="card-info primary">
+                  <label class="upper-label" aria-hidden="false">N&uacute;mero</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="titulo.numero" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Data de emiss&atilde;o</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="titulo.emissao" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Data de vencimento</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="titulo.vencimento" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Fluxo</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="8"
+                    v-model="titulo.fluxo"/>
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Valor</label>
+                  <input class="card-data"
+                    type="number"
+                    readonly="readonly"
+                    size="10"
+                    v-model="titulo.valor" />
+                </li>
+                <li class="card-info eager-info">
+                  <label class="upper-label">Estabelecimento</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    v-model="titulo.estabelecimento" />
+                </li>
+              </ul>
+            </div>
           </li>
-          <li id="card-n titulo">
-            <ul class="inline-list">
-              <li><span class="card-status">Status</span></li>
-              <li><span class="card-info">
-                <label for="card-n-documento">Documento</label>
-                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
-              </span></li>
-              <li>
-              <span class="card-info">
-                <label for="card-n-conta">Conta</label>
-                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-fluxo">Fluxo</label>
-                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-estabelecimento">Estabelecimento</label>
-                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
-                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-valor">Valor</label>
-                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
-              </span></li>
-              <li><span class="card-info eager-info">
-                <label for="card-n-historico">Hist&oacute;rico</label>
-                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
-              </span></li>
-            </ul>
-          </li>
-          <li id="card-n titulo">
-            <ul class="inline-list">
-              <li><span class="card-status">Status</span></li>
-              <li><span class="card-info">
-                <label for="card-n-documento">Documento</label>
-                <input class="card-data" name="card-n-documento" type="text" readonly="readonly" size="15" value="123345"/>
-              </span></li>
-              <li>
-              <span class="card-info">
-                <label for="card-n-conta">Conta</label>
-                <input class="card-data" name="card-n-conta" type="text" readonly="readonly" size="10" value="CTX-2345"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-fluxo">Fluxo</label>
-                <input class="card-data" name="card-n-fluxo" type="text" readonly="readonly" size="8" value="Entrada"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-estabelecimento">Estabelecimento</label>
-                <input class="card-data" name="card-n-estabelecimento" type="text" readonly="readonly" size="10" value="Austin"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-datalancamento">Data de lan&ccedil;amento</label>
-                <input class="card-data" name="card-n-datalancamento" type="date" readonly="readonly" value="2024-03-14"/>
-              </span></li>
-              <li><span class="card-info">
-                <label for="card-n-valor">Valor</label>
-                <input class="card-data" name="card-n-valor" type="number" readonly="readonly" size="10" value="400.90"/>
-              </span></li>
-              <li><span class="card-info eager-info">
-                <label for="card-n-historico">Hist&oacute;rico</label>
-                <input class="card-data" name="card-n-historico" type="text" readonly="readonly" value="Lancamento de acerto"/>
-              </span></li>
-            </ul>
+        </ul>
+        <ul class="cards-list" id="lancamentos-list" v-if="lancamentosIsActive">
+          <li v-for="lancamento in lancamentos">
+            <div class="card clickable" v-on:click="() => openModal(lancamento)">
+              <ul class="tips inline-list">
+                <li class="card-status warning" v-if="!lancamento.rateado">A&ccedil;&atilde;o pendente</li>
+              </ul>
+              <ul class="data-info inline-list">
+                <li class="card-info primary">
+                  <label class="upper-label">Documento</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="lancamento.documento" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Conta</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="lancamento.conta" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Fluxo</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="8"
+                    v-model="lancamento.fluxo" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Estabelecimento</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="lancamento.estabelecimento" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Data do lan&ccedil;amento</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="lancamento.data" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Valor</label>
+                  <input class="card-data"
+                    type="number"
+                    readonly="readonly"
+                    size="10"
+                    v-model="lancamento.valor" />
+                </li>
+                <li class="card-info eager-info">
+                  <label class="upper-label">Hist&oacute;rico</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    v-model="lancamento.historico" />
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </section>
+
+      <div class="modal" v-if="anyDocumentSelected">
+        <article class="modal-content">
+          <header>
+            <h1>Informa&ccedil;&otilde;es do {{ selector == 'T' ? 't\u00EDtulo' : 'lan\u00E7amento' }}</h1>
+            <span class="primary">
+              {{ selector == 'T' ? `N\u00FAmero: ${selectedDoc.numero}` : `Documento: ${selectedDoc.documento}` }}
+            </span>
+            <span class="card-status warning">A&ccedil;&atilde;o pendente</span>
+          </header>
+          <main>
+            <section class="doc-info">
+              <ul class="data-info inline-list" v-if="selector == 'T'">
+                <li class="card-info">
+                  <label class="upper-label">Data de emiss&atilde;o</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="selectedDoc.emissao" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Data de vencimento</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="selectedDoc.vencimento" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Fluxo</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="8"
+                    v-model="selectedDoc.fluxo"/>
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Valor</label>
+                  <input class="card-data"
+                    type="number"
+                    readonly="readonly"
+                    size="10"
+                    v-model="selectedDoc.valor" />
+                </li>
+                <li class="card-info eager-info">
+                  <label class="upper-label">Estabelecimento</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    v-model="selectedDoc.estabelecimento" />
+                </li>
+              </ul>
+              <ul class="data-info inline-list" v-if="selector == 'L'">
+                <li class="card-info">
+                  <label class="upper-label">Conta</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="selectedDoc.conta" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Fluxo</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="8"
+                    v-model="selectedDoc.fluxo" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Estabelecimento</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    size="10"
+                    v-model="selectedDoc.estabelecimento" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Data do lan&ccedil;amento</label>
+                  <input class="card-data"
+                    type="date"
+                    readonly="readonly"
+                    v-model="selectedDoc.data" />
+                </li>
+                <li class="card-info">
+                  <label class="upper-label">Valor</label>
+                  <input class="card-data"
+                    type="number"
+                    readonly="readonly"
+                    size="10"
+                    v-model="selectedDoc.valor" />
+                </li>
+                <li class="card-info eager-info">
+                  <label class="upper-label">Hist&oacute;rico</label>
+                  <input class="card-data"
+                    type="text"
+                    readonly="readonly"
+                    v-model="selectedDoc.historico" />
+                </li>
+              </ul>
+            </section>
+            <section id="rateios">
+              <header>
+                <p>Distribui&ccedil;&atilde;o do documento</p>
+                <hr />
+              </header>
+              <p>
+                Distribua os valores nas dimens&otilde;es abaixo. Voc&ecirc; pode adicionar ou remover
+                distribui&ccedil;&otilde;es em qualquer uma das dimens&otilde;es, n&atilde;o sendo
+                necess&aacute;rio utilizar todas. A a&ccedil;&atilde;o s&oacute; ser&aacute; conclu&iacute;da
+                quando a soma atingir 100%.
+              </p>
+              <div class="container-apports">
+                <ul class="inline-list">
+                  <li>
+                    <header class="apports-action flex-container justify-right">
+                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                    </header>
+                    <table class="apports-table">
+                      <thead>
+                        <th class="th-apport">Classifica&ccedil;&atilde;o financeira</th>
+                        <th class="th-value">Valor</th>
+                        <th class="th-percent">%</th>
+                        <th class="th-delete"></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <button class="delete-apport tertiary-btn danger">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <td class="tf-apport">Total</td>
+                        <td class="tf-value"></td>
+                        <td class="tf-percent"></td>
+                        <td class="tf-delete"></td>
+                      </tfoot>
+                    </table>
+                  </li>
+                  <li>
+                    <header class="apports-action flex-container justify-right">
+                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                    </header>
+                    <table class="apports-table">
+                      <thead>
+                        <th class="th-apport">Centro de custo</th>
+                        <th class="th-value">Valor</th>
+                        <th class="th-percent">%</th>
+                        <th class="th-delete"></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <button class="delete-apport tertiary-btn danger">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <td class="tf-apport">Total</td>
+                        <td class="tf-value"></td>
+                        <td class="tf-percent"></td>
+                        <td class="tf-delete"></td>
+                      </tfoot>
+                    </table>
+                  </li>
+                  <li>
+                    <header class="apports-action flex-container justify-right">
+                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                    </header>
+                    <table class="apports-table">
+                      <thead>
+                        <th class="th-apport">Projeto</th>
+                        <th class="th-value">Valor</th>
+                        <th class="th-percent">%</th>
+                        <th class="th-delete"></th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <button class="delete-apport tertiary-btn danger">
+                              <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <td class="tf-apport">Total</td>
+                        <td class="tf-value"></td>
+                        <td class="tf-percent"></td>
+                        <td class="tf-delete"></td>
+                      </tfoot>
+                    </table>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </main>
+          <footer class="flex-container justify-right">
+            <button class="action-btn secondary-btn clickable" v-on:click="closeModal">Fechar</button>
+          </footer>
+        </article>
+      </div>
     </main>
+
+
     <footer></footer>
+
+    <script src="../js/vue.js"></script>
+    <script src="../js/raw.js"></script>
   </body>
 </html>

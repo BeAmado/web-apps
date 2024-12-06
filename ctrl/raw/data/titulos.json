@@ -1,0 +1,66 @@
+[{
+    "numero": "ABC123",
+    "emissao": "2024-01-13",
+    "vencimento": "2024-01-31",
+    "sinal": 0,
+    "cash_flow": "IN",
+    "valor": "157.29",
+    "estabelecimento": {
+        "codigo": "AUT",
+        "descricao": "Austin"
+    },
+    "contabilizado": false,
+    "rateado": false
+}, {
+    "numero": "ABC456",
+    "emissao": "2024-01-19",
+    "vencimento": "2024-01-31",
+    "sinal": 0,
+    "cash_flow": "IN",
+    "valor": "298.99",
+    "estabelecimento": {
+        "codigo": "AUT",
+        "descricao": "Austin"
+    },
+    "contabilizado": false,
+    "rateado": false
+}, {
+    "numero": "XYZ333",
+    "emissao": "2024-02-01",
+    "vencimento": "2024-02-07",
+    "sinal": 1,
+    "cash_flow": "OUT",
+    "valor": "1579.07",
+    "estabelecimento": {
+        "codigo": "DAL",
+        "descricao": "Dallas"
+    },
+    "contabilizado": false,
+    "rateado": false
+}, {
+    "numero": "XYZ899",
+    "emissao": "2024-02-13",
+    "vencimento": "2024-02-21",
+    "sinal": 1,
+    "cash_flow": "OUT",
+    "valor": "1015.89",
+    "estabelecimento": {
+        "codigo": "DAL",
+        "descricao": "Dallas"
+    },
+    "contabilizado": false,
+    "rateado": false
+}, {
+    "numero": "ABC789",
+    "emissao": "2024-02-02",
+    "vencimento": "2024-02-31",
+    "sinal": 0,
+    "fluxo": "IN",
+    "valor": "2400.00",
+    "estabelecimento": {
+        "codigo": "DAL",
+        "descricao": "Dallas"
+    },
+    "contabilizado": false,
+    "rateado": false
+}]

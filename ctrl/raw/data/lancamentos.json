@@ -1,0 +1,46 @@
+[{
+    "documento": "DOC123",
+    "conta": {
+        "codigo": "CTX",
+        "numero": "12345"
+    },
+    "sinal": 0,
+    "cash_flow": "OUT",
+    "estabelecimento": {
+        "codigo": "AUT",
+        "descricao": "Austin"
+    },
+    "data": "2024-01-26",
+    "valor": "290.89",
+    "historico": "Pagamento de d&iacute;vidas do m&ecir;s passado"
+}, {
+    "documento": "DOC456",
+    "conta": {
+        "codigo": "CTX",
+        "numero": "12345"
+    },
+    "sinal": 1,
+    "cash_flow": "IN",
+    "estabelecimento": {
+        "codigo": "AUT",
+        "descricao": "Austin"
+    },
+    "data": "2024-02-28",
+    "valor": "2900.89",
+    "historico": "Venda de m&oacute; de acelera&ccedil;&atilde;o de foguetes"
+}, {
+    "documento": "DOC789",
+    "conta": {
+        "codigo": "CTX",
+        "numero": "12345"
+    },
+    "sinal": 0,
+    "cash_flow": "OUT",
+    "estabelecimento": {
+        "codigo": "AUT",
+        "descricao": "Austin"
+    },
+    "data": "2024-03-26",
+    "valor": "29709.23",
+    "historico": "Pagamento dos colaboradores"
+}]
