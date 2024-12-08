@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -339,39 +339,53 @@
               <div class="container-apports">
                 <ul class="inline-list">
                   <li>
-                    <header class="apports-action flex-container justify-right">
-                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                    <header class="apports-action justify-right">
+                      <button class="tertiary-btn clickable"
+                        v-on:click="addVirtualApport('CF')">Adicionar distribui&ccedil;&atilde;o</button>
                     </header>
-                    <table class="apports-table">
+                    <table class="apports-table" v-if="virtualApports">
                       <thead>
-                        <th class="th-apport">Classifica&ccedil;&atilde;o financeira</th>
-                        <th class="th-value">Valor</th>
-                        <th class="th-percent">%</th>
-                        <th class="th-delete"></th>
+                        <th><label>Classifica&ccedil;&atilde;o financeira</label></th>
+                        <th>Valor</th>
+                        <th>%</th>
+                        <th></th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr v-for="(apportCF, iCF) in virtualApports['CF']" v-bind:key="iCF">
+                          <td class="select-data">
+                            <select v-model="apportCF.classificacaofinanceira">
+                              <option disabled value="">Escolha</option>
+                              <option v-for="_cf in classfin" v-bind:value="_cf.classificacaofinanceira">
+                                {{ _cf.codigo }} - {{ _cf.descricao }}
+                              </option>
+                            </select>
+                          </td>
+                          <td class="numeric-value">
+                            <input type="number" step="0.01" lang="pt-br" v-model.number="apportCF.valor" />
+                          </td>
+                          <!--<td class="numeric-value">{{ apportCF.valor | round2 | money }}</td>-->
+                          <td class="numeric-value">{{ (apportCF.valor / selectedDoc.valor * 100) | round2 | percent }}</td>
                           <td>
-                            <button class="delete-apport tertiary-btn danger">
+                            <button class="delete-apport tertiary-btn danger"
+                              v-on:click="removeVirtualApport('CF', iCF)"
+                            >
                               <i class="fa-solid fa-xmark"></i>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                       <tfoot>
-                        <td class="tf-apport">Total</td>
-                        <td class="tf-value"></td>
-                        <td class="tf-percent"></td>
-                        <td class="tf-delete"></td>
+                        <td class="text-value">Total</td>
+                        <td class="numeric-value">{{ getTotalValue('CF') | round2 | money }}</td>
+                        <td class="numeric-value">{{ getTotalPercent('CF') | round2 | percent }}</td>
+                        <td></td>
                       </tfoot>
                     </table>
                   </li>
                   <li>
                     <header class="apports-action flex-container justify-right">
-                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                      <button class="tertiary-btn clickable"
+                        v-on:click="addVirtualApport('CC')">Adicionar distribui&ccedil;&atilde;o</button>
                     </header>
                     <table class="apports-table">
                       <thead>
@@ -381,28 +395,48 @@
                         <th class="th-delete"></th>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                        <tr v-for="(apportCC, iCC) in virtualApports['CC']" v-bind:key="iCC">
+                          <td class="select-data">
+                            <select v-model="apportCC.centrocusto">
+                              <option disabled value="">Escolha</option>
+                              <option v-for="_cc in centros" v-bind:value="_cc.centrocusto">
+                                {{ _cc.codigo }} - {{ _cc.descricao }}
+                              </option>
+                            </select>
+                          </td>
+                          <!--<td class="numeric-value">{{ apportCC.valor | round2 | money }}</td>-->
+                          <td class="numeric-value">
+                            <input type="number" step="0.01"
+                              v-on:input="calculatePercent(apportCC)"
+                              v-model.number="apportCC.valor" />
+                          </td>
+                          <td class="numeric-value">
+                            <input type="number" step="0.01" size="5"
+                              v-on:input="calculateValue(apportCC)"
+                              v-model.number="apportCC.percentual" />
+                          </td>
+                          <!--<td class="numeric-value">{{ (apportCC.valor / selectedDoc.valor * 100) | round2 | percent }}</td>-->
                           <td>
-                            <button class="delete-apport tertiary-btn danger">
+                            <button class="delete-apport tertiary-btn danger"
+                              v-on:click="removeVirtualApport('CC', iCC)"
+                            >
                               <i class="fa-solid fa-xmark"></i>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                       <tfoot>
-                        <td class="tf-apport">Total</td>
-                        <td class="tf-value"></td>
-                        <td class="tf-percent"></td>
+                        <td class="tf-apport text-value">Total</td>
+                        <td class="tf-value numeric-value">{{ getTotalValue('CC') | round2 | money }}</td>
+                        <td class="tf-percent numeric-value">{{ getTotalPercent('CC') | round2 | percent }}</td>
                         <td class="tf-delete"></td>
                       </tfoot>
                     </table>
                   </li>
                   <li>
                     <header class="apports-action flex-container justify-right">
-                      <button>Adicionar distribui&ccedil;&atilde;o</button>
+                      <button class="tertiary-btn clickable"
+                        v-on:click="addVirtualApport('PR')">Adicionar distribui&ccedil;&atilde;o</button>
                     </header>
                     <table class="apports-table">
                       <thead>
@@ -412,21 +446,30 @@
                         <th class="th-delete"></th>
                       </thead>
                       <tbody>
-                        <tr v-for="proj in selectedDoc.rateios['PR']">
-                          <td class="text-value">{{ proj.codigo }} - {{ proj.nome }}</td>
-                          <td class="numeric-value">{{ proj.valor | round2 }}</td>
-                          <td class="numeric-value">{{ proj.valor / selectedDoc.valor * 100  | round2 }}</td>
+                        <tr v-for="(apportPR, iPR) in virtualApports['PR']" v-bind:key="iPR">
+                          <td class="select-data">
+                            <select v-model="apportPR.projeto">
+                              <option disabled value="">Escolha</option>
+                              <option v-for="_pr in projetos" v-bind:value="_pr.projeto">
+                                {{ _pr.codigo }} - {{ _pr.nome }}
+                              </option>
+                            </select>
+                          </td>
+                          <td class="numeric-value">{{ apportPR.valor | round2 | money }}</td>
+                          <td class="numeric-value">{{ (apportPR.valor / selectedDoc.valor * 100)  | round2 | percent}}</td>
                           <td>
-                            <button class="delete-apport tertiary-btn danger clickable">
+                            <button class="delete-apport tertiary-btn danger clickable"
+                              v-on:click="removeVirtualApport('PR', iPR)"
+                            >
                               <i class="fa-solid fa-xmark"></i>
                             </button>
                           </td>
                         </tr>
                       </tbody>
                       <tfoot>
-                        <td class="tf-apport">Total</td>
-                        <td class="tf-value"></td>
-                        <td class="tf-percent"></td>
+                        <td class="tf-apport tbl-total text-value">Total</td>
+                        <td class="tf-value numeric-value">{{ getTotalValue('PR') | round2 | money }}</td>
+                        <td class="tf-percent numeric-value">{{ getTotalPercent('PR') | round2 | percent }}</td>
                         <td class="tf-delete"></td>
                       </tfoot>
                     </table>
@@ -436,7 +479,11 @@
             </section>
           </main>
           <footer class="flex-container justify-right">
-            <button class="action-btn secondary-btn clickable" v-on:click="closeModal">Fechar</button>
+            <button class="action-btn primary-btn clickable"
+              v-on:click="saveApports"
+              v-if="changedApports">Salvar</button>
+            <button class="action-btn secondary-btn clickable"
+              v-on:click="closeModal">Fechar</button>
           </footer>
         </article>
       </div>

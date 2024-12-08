@@ -20,6 +20,11 @@ var app = new Vue({
                 {attr: 'conta', label: 'Conta'}
             ]
         },
+        pks: {
+            'CC': 'centrocusto',
+            'CF': 'classificacaofinanceira',
+            'PR': 'projeto'
+        },
         titulosData: [{
             "numero": "ABC123",
             "emissao": "2024-01-13",
@@ -47,30 +52,25 @@ var app = new Vue({
             "contabilizado": false,
             "rateios": {
                 "CC": [{
-                    "codigo": "CC.01",
-                    "descricao": "Centro de custo #1",
+                    //"centrocusto": "ecd55297-49ee-481c-9b9b-46b1ce7ae071",
+                    "centrocusto": '',
                     "valor": 200
                 }, {
-                    "codigo": "CC.02",
-                    "descricao": "Centro de custo #1",
+                    "centrocusto": "9d6d2f54-225c-41fe-a9ce-6956b639b9b1",
                     "valor": 98.99
                 }],
                 "CF": [{
-                    "codigo": "CF.01",
-                    "descricao": "Class. Fin. #1",
+                    "classificacaofinanceira": "a094137a-9246-4c62-9154-caff85f298ca",
                     "valor": 298.99
                 }],
                 "PR": [{
-                    "codigo": "PR.01",
-                    "nome": "Projeto #1",
+                    "projeto": "50f50a3d-3b17-49e1-84f2-ea3a9246bd2c",
                     "valor": 150
                 }, {
-                    "codigo": "PR.02",
-                    "nome": "Projeto #2",
+                    "projeto": "78ef0dd2-ccfc-40ae-acc7-879fcd545956",
                     "valor": 130
                 }, {
-                    "codigo": "PR.03",
-                    "nome": "Projeto #3",
+                    "projeto": "d6c4398a-79a8-4455-b1af-d2b78f0fb586",
                     "valor": 18.99
                 }]
             }
@@ -281,30 +281,24 @@ var app = new Vue({
             "historico": "Venda de m\u00F3dulo de acelera\u00E7\u00E3o de foguetes",
             "rateios": {
                 "CC": [{
-                    "codigo": "CC.01",
-                    "descricao": "Centro de custo #1",
+                    "centrocusto": "ecd55297-49ee-481c-9b9b-46b1ce7ae071",
                     "valor": 2000
                 }, {
-                    "codigo": "CC.02",
-                    "descricao": "Centro de custo #1",
+                    "centrocusto": "9d6d2f54-225c-41fe-a9ce-6956b639b9b1",
                     "valor": 900.89
                 }],
                 "CF": [{
-                    "codigo": "CF.01",
-                    "descricao": "Class. Fin. #1",
+                    "classificacaofinanceira": "a094137a-9246-4c62-9154-caff85f298ca",
                     "valor": 2900.89
                 }],
                 "PR": [{
-                    "codigo": "PR.01",
-                    "nome": "Projeto #1",
+                    "projeto": "50f50a3d-3b17-49e1-84f2-ea3a9246bd2c",
                     "valor": 1500
                 }, {
-                    "codigo": "PR.02",
-                    "nome": "Projeto #2",
+                    "projeto": "78ef0dd2-ccfc-40ae-acc7-879fcd545956",
                     "valor": 1300
                 }, {
-                    "codigo": "PR.03",
-                    "nome": "Projeto #3",
+                    "projeto": "d6c4398a-79a8-4455-b1af-d2b78f0fb586",
                     "valor": 100.89
                 }]
             }
@@ -366,7 +360,7 @@ var app = new Vue({
             'codigo': 'CF.05',
             'descricao': 'Class. Fin. #5'
         }],
-        centroscustos: [, {
+        centros: [{
             'centrocusto': '5ba58cb6-96a9-455f-9466-985da79e3dac',
             'codigo': 'CC.01',
             'descricao': 'Centro de Custo #1'
@@ -410,14 +404,51 @@ var app = new Vue({
             return (this.selector == 'T')
                 ? this.filterFields.titulos
                 : this.filterFields.lancamentos;
+        },
+        changedApports: function() {
+            if (!this.virtualApports)
+                return false;
+            return !this.sameApports(
+                this.apportsValues(this.selectedDoc.rateios),
+                this.apportsValues(this.virtualApports)
+            );
         }
     },
     filters: {
         round2: function(value) {
-            return value.toFixed(2).replace('.', ',');
+            if (typeof value == 'number')
+                return value.toFixed(2);
+            else
+                return value;
+        },
+        money: function(value) {
+            return 'R$' + value.replace('.', ',');
+        },
+        percent: function(value) {
+            return value.replace('.', ',').replace('%', '') + '%';
         }
     },
     methods: {
+        apports1InApports2: function(apports1, apports2) {
+            for (let dim of Object.keys(apports1)) {
+                if (!(dim in apports2)) {
+                    return false;
+                }
+                for (let pk of Object.keys(apports1[dim])) {
+                    if (! (pk in apports2[dim])) {
+                        return false;
+                    }
+                    if (apports2[dim][pk] != apports1[dim][pk]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        sameApports: function(apportsX, apportsY) {
+            return this.apports1InApports2(apportsX, apportsY)
+                && this.apports1InApports2(apportsY, apportsX);
+        },
         parseDocumento: function(doc) {
             return {
                 fluxo: doc.cash_flow == 'IN' ? 'Entrada' : 'Sa\u00EDda',
@@ -448,27 +479,76 @@ var app = new Vue({
                 return lanc;
             })(this.parseDocumento(l));
         },
+        copyObj: function(obj) {
+            if (typeof obj == 'object')
+                return (Array.isArray(obj))
+                    ? obj.map((i) => this.copyObj(i))
+                    : ((copyTo) => {
+                        Object.keys(obj).forEach(attr => {
+                            copyTo[attr] = this.copyObj(obj[attr]);
+                        });
+                        return copyTo;
+                    })({});
+            else
+                return obj;
+        },
+        apportsValues: function(apports) {
+            return ((hash) => {
+                Object.keys(hash).forEach(dim => {
+                    if (apports && (dim in apports))
+                        apports[dim].forEach((apport) => {
+                            hash[dim][apport[this.pks[dim]]] = apport.valor;
+                        });
+                });
+                return hash;
+            })({
+                'CC': {},
+                'CF': {},
+                'PR': {}
+            });
+        },
         getVirtualApports: function(doc) {
             return (function (virt) {
                 if (doc.rateios)
                     Object.keys(doc.rateios).forEach(dim => {
                         if (dim in virt)
-                            virt[dim] = {};
                             doc.rateios[dim].forEach(apport => {
-                                Object.keys(apport).forEach(attr => {
-                                    virt[dim][attr] = apport[attr];
-                                });
+                                virt[dim].push(this.copyObj(apport));
                             });
                     });
                 return virt;
-            })({
+            }).bind(this)({
                 'CC': [],
                 'CF': [],
                 'PR': []
             });
         },
         setApports: function(doc, apports) {
-            doc.rateios = apports;
+            doc.rateios = this.getVirtualApports({rateios: apports});
+        },
+        addVirtualApport: function(dim) {
+            this.virtualApports[dim].push(((newApport) => {
+                newApport[this.pks[dim]] = '';
+                newApport['valor'] = 0;
+                return newApport;
+            })({}));
+        },
+        editApportValue: function(dim, i, newValue) {
+            this.virtualApports[dim][i].valor = newValue;
+        },
+        removeVirtualApport: function(dim, i) {
+            if (this.virtualApports && this.virtualApports[dim])
+                this.virtualApports[dim].splice(i, 1)
+        },
+        saveApports: function() {
+            this.setApports(this.selectedDoc, this.virtualApports);
+            this.closeModal();
+        },
+        calculatePercent: function(apport) {
+            apport['percentual'] = Math.round(apport['valor'] / (this.selectedDoc.valor || 1) * 10000) / 100;
+        },
+        calculateValue: function(apport) {
+            apport['valor'] = Math.round(apport['percentual'] * (this.selectedDoc.valor || 0)) / 100;
         },
         selectTitulos: function() {
             this.selector = "T";
@@ -478,9 +558,23 @@ var app = new Vue({
         },
         openModal: function(doc) {
             this.selectedDoc = doc;
+            this.virtualApports = this.getVirtualApports(doc);
         },
         closeModal: function() {
             this.selectedDoc = null;
+            this.virtualApports = null;
+        },
+        getTotalValue: function(dim) {
+            if (this.virtualApports && this.virtualApports[dim]) {
+                return this.virtualApports[dim].reduce(
+                    (total, apport) => total + apport.valor,
+                    0
+                );
+            } else
+                return 0;
+        },
+        getTotalPercent: function(dim) {
+            return this.getTotalValue(dim) / this.selectedDoc.valor * 100;
         },
         loadTitulos: function() {
             fetch('../data/titulos.json')

@@ -28,7 +28,9 @@ h2 {
     font-size: 1.2rem;
 }
 
-button:hover, a:hover, select:hover {
+button:hover,
+a:hover,
+select:hover {
     cursor: pointer;
 }
 
@@ -94,6 +96,10 @@ button.tertiary {
     cursor: pointer;
 }
 
+.clickable.primary-btn:hover {
+    background-color: rgba(0, 70, 156, 0.8);
+}
+
 body > header {
     min-height: 50px;
     height: 80px;
@@ -104,6 +110,13 @@ main header h1 {
     font-weight: 600;
 }
 
+input:focus {
+    outline: none;
+}
+
+input:disabled:hover, input[readonly="readonly"] {
+    cursor: inherit;
+}
 
 /*    ------- NAVBAR --------- */
 .navbar {
@@ -181,10 +194,6 @@ main header h1 {
     text-indent: 16px;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
-}
-
-.search-area input:focus {
-    outline: none;
 }
 
 .info-selector {
@@ -331,6 +340,11 @@ main header h1 {
     color: var(--primary-color);
 }
 
+.card-info label:hover,
+.card-info input:hover {
+    cursor: inherit;
+}
+
 .eager-info {
     flex-grow: 1;
     min-width: 200px;
@@ -354,12 +368,14 @@ main header h1 {
 
 .modal-content {
     position: relative;
-    top: 32px;
+    top: 0;
     background-color: #fff;
     padding: 16px;
     border-radius: 16px;
-    margin: 64px;
+    margin: 4% 64px;
     font-size: 0.7rem;
+    overflow-y: auto;
+    max-height: 90%;
 }
 
 .modal-content header > * {
@@ -387,6 +403,7 @@ main header h1 {
 
 #rateios {
     margin: 32px 0px;
+    font-size: 0.8em;
 }
 
 #rateios header {
@@ -420,51 +437,145 @@ main header h1 {
     padding: 10px 0px;
 }
 
-.modal-content .doc-info .card-info > * {
-    font-size: 0.8rem;
+.modal-content footer {
+    gap: 1rem;
 }
+
+/*.modal-content .doc-info .card-info > * {
+    font-size: 0.8rem;
+}*/
 /* ---------------------------------------- */
 
 .container-apports {
-    padding: 32px 0px;
+    margin-top: 32px;
+}
+
+.container-apports button,
+.container-apports select {
+    font-size: 0.9em;
+}
+
+.container-apports select {
+    width: 100%;
+    height: 100%;
+    white-space: pre-wrap;
+}
+
+.container-apports .inline-list {
+    gap: 2rem;
+    justify-content: space-evenly;
+}
+
+.container-apports header {
+    position: relative;
+    margin-bottom: -24px;
+    padding: 8px;
+    padding-bottom: 32px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: rgba(0, 70, 156, 0.15);
+}
+
+.container-apports header .tertiary-btn {
+    background-color: transparent;
+    font-weight: bold;
 }
 
 .apports-table {
-    border: 1px solid black;
+    position: relative;
+    background-color: var(--bgnd-color);
+    border: 1px solid var(--brdr-color);
     border-radius: 8px;
     border-spacing: 0;
-    margin-top: 8px;
 }
 
-.apports-table th,
-.apports-table td {
-    padding: 10px 20px;
+.apports-table input {
+    max-width: 64px;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.apports-table thead th,
+.apports-table tfoot td {
+    padding: 8px;
 }
 
 .apports-table td {
-    border-top: 1px solid black;
+    padding: 8px;
+    max-width: 64px;
+    text-align: center;
+}
+
+.apports-table td:last-child {
+    padding: 8px 16px;
+}
+
+.apports-table th, .apports-table .tb-ltotal {
+    background-color: rgba(238, 238, 238, 0.5);
+}
+
+.apports-table select,
+.apports-table option {
+    border: none;
+    background-color: transparent;
 }
 
 .apports-table td:first-child {
-    min-width: 100px;
+    max-width: 200px;
+}
+
+
+.apports-table td {
+    border-top: 1px solid var(--brdr-color);
 }
 
 .apports-table td:not(:first-child), .apports-table th:not(:first-child) {
-    border-left: 1px solid black;
+    border-left: 1px solid var(--brdr-color);
 }
 
 .apports-table td.numeric-value {
     text-align: right;
+    max-width: 72px;
 }
 
 .apports-table td.text-value {
     text-align: left;
 }
 
-.apports-table th {
+.apports-table th:not(:first-of-type) {
     text-align: center;
+}
+
+.apports-table thead, .apports-table tfoot {
+    font-weight: bold;
 }
 
 .tertiary-btn.danger {
     color: var(--danger-color);
+}
+
+.card-info input {
+    border: none;
+    background-color: transparent;
+}
+
+.apports-table input[type="number"]::-webkit-outer-spin-button,
+.apports-table input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    text-align: right;
+}
+
+.apports-table input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+    text-align: right;
+    border: none;
+    width: fit-content;
+    max-width: 56px;
+}
+
+.apports-table option:disabled {
+    display: none;
 }
