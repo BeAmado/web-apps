@@ -52,8 +52,7 @@ var app = new Vue({
             "contabilizado": false,
             "rateios": {
                 "CC": [{
-                    //"centrocusto": "ecd55297-49ee-481c-9b9b-46b1ce7ae071",
-                    "centrocusto": '',
+                    "centrocusto": "ecd55297-49ee-481c-9b9b-46b1ce7ae071",
                     "valor": 200
                 }, {
                     "centrocusto": "9d6d2f54-225c-41fe-a9ce-6956b639b9b1",
@@ -539,16 +538,20 @@ var app = new Vue({
             });
         },
         getVirtualApports: function(doc) {
-            return (function (virt) {
+            return ((virt) => {
                 if (doc.rateios)
                     Object.keys(doc.rateios).forEach(dim => {
                         if (dim in virt)
                             doc.rateios[dim].forEach(apport => {
                                 virt[dim].push(this.copyObj(apport));
                             });
+                            virt[dim].forEach(a => {
+                                if (! ('percent' in a))
+                                    this.calculatePercent(a);
+                            });
                     });
                 return virt;
-            }).bind(this)({
+            })({
                 'CC': [],
                 'CF': [],
                 'PR': []

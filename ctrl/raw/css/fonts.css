@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
     font-family: "PT Sans";
     src: url("../fonts/PTSans-Regular.ttf") format("truetype");
     font-weight: normal;
@@ -24,4 +24,30 @@
     src: url("../fonts/PTSans-BoldItalic.ttf") format("truetype");
     font-weight: bold;
     font-style: italic;
-}
+}*/
+
+/*@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Merienda:wght@300..900&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');*/
+.pt-sans-regular {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .pt-sans-bold {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .pt-sans-regular-italic {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .pt-sans-bold-italic {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  

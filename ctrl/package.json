@@ -16,7 +16,13 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clear-mini": "rm -r mini/*",
+    "copy-assets": "sh ./scripts/copy-assets.sh",
+    "copy-to-minify": "sh ./scripts/copy-to-minify.sh",
+    "minify": "npx webpack",
+    "minify-css": "css-minify -d ./to-minify/css -o mini/css",
+    "links-minified-css": "sh ./scripts/replace-css-links-to-minified.sh"
   },
   "eslintConfig": {
     "extends": [
@@ -35,5 +41,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-loader": "^9.2.1",
+    "css-minify": "^2.0.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "terser-webpack-plugin": "^5.3.10",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4"
   }
 }
