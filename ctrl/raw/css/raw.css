@@ -1,3 +1,4 @@
+/* ------------- common basic rules -------------- */
 * {
     margin: 0;
     padding: 0;
@@ -36,6 +37,11 @@ select:hover {
 
 button.tertiary {
     border: none !important;
+}
+
+button.tertiary.danger,
+.tertiary-btn.danger {
+    color: var(--danger-color);
 }
 
 .clearfix::after {
@@ -117,9 +123,10 @@ input:focus {
 input:disabled:hover, input[readonly="readonly"] {
     cursor: inherit;
 }
+/* ------------------------------- */
 
 /*    ------- NAVBAR --------- */
-.navbar {
+/*.navbar {
     position: fixed;
     width: 100%;
     top: 0;
@@ -160,12 +167,12 @@ input:disabled:hover, input[readonly="readonly"] {
 
 #user-profile {
     border-radius: 8px;
-}
+}*/
 /* -------------------------------------------- */
 
 
 /* ---------- FILTERING -----------------*/
-.filtering .centered {
+/*.filtering .centered {
     padding: 16px 128px;
     padding-top: 64px;
     background-color: var(--bgnd-color);
@@ -256,13 +263,13 @@ input:disabled:hover, input[readonly="readonly"] {
 
 .list-filters button.tertiary {
     font-weight: 400;
-}
+}*/
 
 /* ----------------------------------------------- */
 
 
 /* ------------- CARDS ------------------ */
-.cards-list {
+/*.cards-list {
     border: 2px solid #ddd;
     border-radius: 16px;
     border-left: none;
@@ -348,19 +355,18 @@ input:disabled:hover, input[readonly="readonly"] {
 .eager-info {
     flex-grow: 1;
     min-width: 200px;
-}
+}*/
 
 /* ----------------------------------------- */
 
 /* ------------ MODAL --------------------- */
-.modal {
-    /*display: none;*/ /* Initially hidden */
+/*.modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 199;
@@ -401,7 +407,23 @@ input:disabled:hover, input[readonly="readonly"] {
     color: var(--icon-color);
 }
 
-#rateios {
+.modal-content .doc-info {
+    margin: 32px 0px;
+}
+
+.modal-content .card-info {
+    padding: 10px 0px;
+}
+
+.modal-content footer {
+    gap: 1rem;
+}*/
+
+/* ---------------------------------------- */
+
+/* -------------- RATEIOS ----------------- */
+
+/*#rateios {
     margin: 32px 0px;
     font-size: 0.8em;
 }
@@ -428,23 +450,6 @@ input:disabled:hover, input[readonly="readonly"] {
     margin-right: 64px;
     border-color: rgba(238, 238, 238, 0.5);
 }
-
-.modal-content .doc-info {
-    margin: 32px 0px;
-}
-
-.modal-content .card-info {
-    padding: 10px 0px;
-}
-
-.modal-content footer {
-    gap: 1rem;
-}
-
-/*.modal-content .doc-info .card-info > * {
-    font-size: 0.8rem;
-}*/
-/* ---------------------------------------- */
 
 .container-apports {
     margin-top: 32px;
@@ -550,15 +555,6 @@ input:disabled:hover, input[readonly="readonly"] {
     font-weight: bold;
 }
 
-.tertiary-btn.danger {
-    color: var(--danger-color);
-}
-
-.card-info input {
-    border: none;
-    background-color: transparent;
-}
-
 .apports-table input[type="number"]::-webkit-outer-spin-button,
 .apports-table input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -578,4 +574,6 @@ input:disabled:hover, input[readonly="readonly"] {
 
 .apports-table option:disabled {
     display: none;
-}
+}*/
+
+/* ------------------------------------------------------ */

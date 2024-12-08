@@ -12,7 +12,12 @@
     <link rel="stylesheet" href="../css/fontawesome.css" />
     <link rel="stylesheet" href="../css/fonts.css" />
     <link rel="stylesheet" href="../css/nhids.css" />
-    <link rel="stylesheet" href="../css/raw.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/navbar.css" />
+    <link rel="stylesheet" href="../css/filtering.css" />
+    <link rel="stylesheet" href="../css/cards.css" />
+    <link rel="stylesheet" href="../css/modal.css" />
+    <link rel="stylesheet" href="../css/apportionments.css" />
     <title>Building Ctrl</title>
   </head>
   <body>
@@ -68,9 +73,10 @@
             <i class="fa-solid fa-search icon"></i>
             <input name="search-value"
               type="text"
-              placeholder="Pesquisar por nome, estabelecimento ou valor" />
+              v-model="filterText"
+              v-bind:placeholder="filterPlaceholder" />
           </div>
-          <div class="list-filters">
+          <div class="list-filters" v-if="false">
             <ul class="inline-list">
               <li v-for="dataFilter in availableFilters">
                 <button class="clickable" v-bind:name="dataFilter.attr">{{ dataFilter.label }}</button>
@@ -98,7 +104,7 @@
       <section class="doc-list">
         <h1 class="hidden" aria-hidden="false">Listagem dos documentos pendentes de rateio espec&iacute;fico no processamento de 10/10/2024 &agrave;s 14:00:00</h1>
         <ul class="cards-list" id="titulos-list" v-if="titulosIsActive">
-          <li v-for="titulo in titulos" :key="titulo.numero">
+          <li v-for="(titulo, iTit) in filteredTitulos" v-bind:key="iTit">
             <div class="card clickable" v-on:click="() => openModal(titulo)">
               <ul class="tips inline-list">
                 <li class="card-status"
@@ -156,7 +162,7 @@
           </li>
         </ul>
         <ul class="cards-list" id="lancamentos-list" v-if="lancamentosIsActive">
-          <li v-for="lancamento in lancamentos">
+          <li v-for="(lancamento, iLanc) in filteredLancamentos" v-bind:key="iLanc">
             <div class="card clickable" v-on:click="() => openModal(lancamento)">
               <ul class="tips inline-list">
                 <li class="card-status"
@@ -361,10 +367,15 @@
                             </select>
                           </td>
                           <td class="numeric-value">
-                            <input type="number" step="0.01" lang="pt-br" v-model.number="apportCF.valor" />
+                            <input type="number" step="0.01"
+                              v-on:input="calculatePercent(apportCF)"
+                              v-model.number="apportCF.valor" />
                           </td>
-                          <!--<td class="numeric-value">{{ apportCF.valor | round2 | money }}</td>-->
-                          <td class="numeric-value">{{ (apportCF.valor / selectedDoc.valor * 100) | round2 | percent }}</td>
+                          <td class="percent-value">
+                            <input type="number" step="0.01" size="5" max="999.99" min="-999.99"
+                              v-on:input="calculateValue(apportCF)"
+                              v-model.number="apportCF.percentual" />
+                          </td>
                           <td>
                             <button class="delete-apport tertiary-btn danger"
                               v-on:click="removeVirtualApport('CF', iCF)"
@@ -377,7 +388,7 @@
                       <tfoot>
                         <td class="text-value">Total</td>
                         <td class="numeric-value">{{ getTotalValue('CF') | round2 | money }}</td>
-                        <td class="numeric-value">{{ getTotalPercent('CF') | round2 | percent }}</td>
+                        <td class="percent-value">{{ getTotalPercent('CF') | round2 | percent }}</td>
                         <td></td>
                       </tfoot>
                     </table>
@@ -404,18 +415,16 @@
                               </option>
                             </select>
                           </td>
-                          <!--<td class="numeric-value">{{ apportCC.valor | round2 | money }}</td>-->
                           <td class="numeric-value">
                             <input type="number" step="0.01"
                               v-on:input="calculatePercent(apportCC)"
                               v-model.number="apportCC.valor" />
                           </td>
-                          <td class="numeric-value">
-                            <input type="number" step="0.01" size="5"
+                          <td class="percent-value">
+                            <input type="number" step="0.01" size="5" max="999.99" min="-999.99"
                               v-on:input="calculateValue(apportCC)"
                               v-model.number="apportCC.percentual" />
                           </td>
-                          <!--<td class="numeric-value">{{ (apportCC.valor / selectedDoc.valor * 100) | round2 | percent }}</td>-->
                           <td>
                             <button class="delete-apport tertiary-btn danger"
                               v-on:click="removeVirtualApport('CC', iCC)"
@@ -428,7 +437,7 @@
                       <tfoot>
                         <td class="tf-apport text-value">Total</td>
                         <td class="tf-value numeric-value">{{ getTotalValue('CC') | round2 | money }}</td>
-                        <td class="tf-percent numeric-value">{{ getTotalPercent('CC') | round2 | percent }}</td>
+                        <td class="tf-percent percent-value">{{ getTotalPercent('CC') | round2 | percent }}</td>
                         <td class="tf-delete"></td>
                       </tfoot>
                     </table>
@@ -455,8 +464,16 @@
                               </option>
                             </select>
                           </td>
-                          <td class="numeric-value">{{ apportPR.valor | round2 | money }}</td>
-                          <td class="numeric-value">{{ (apportPR.valor / selectedDoc.valor * 100)  | round2 | percent}}</td>
+                          <td class="numeric-value">
+                            <input type="number" step="0.01"
+                              v-on:input="calculatePercent(apportPR)"
+                              v-model.number="apportPR.valor" />
+                          </td>
+                          <td class="percent-value">
+                            <input type="number" step="0.01" size="5" max="999.99" min="-999.99"
+                              v-on:input="calculateValue(apportPR)"
+                              v-model.number="apportPR.percentual" />
+                          </td>
                           <td>
                             <button class="delete-apport tertiary-btn danger clickable"
                               v-on:click="removeVirtualApport('PR', iPR)"
@@ -469,7 +486,7 @@
                       <tfoot>
                         <td class="tf-apport tbl-total text-value">Total</td>
                         <td class="tf-value numeric-value">{{ getTotalValue('PR') | round2 | money }}</td>
-                        <td class="tf-percent numeric-value">{{ getTotalPercent('PR') | round2 | percent }}</td>
+                        <td class="tf-percent percent-value">{{ getTotalPercent('PR') | round2 | percent }}</td>
                         <td class="tf-delete"></td>
                       </tfoot>
                     </table>

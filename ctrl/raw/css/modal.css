@@ -1,0 +1,59 @@
+.modal {
+    /*display: none;*/ /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+    z-index: 199;
+}
+
+.modal-content {
+    position: relative;
+    top: 0;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 16px;
+    margin: 4% 64px;
+    font-size: 0.7rem;
+    overflow-y: auto;
+    max-height: 90%;
+}
+
+.modal-content header > * {
+    display: inline-flex;
+}
+
+.modal-content span.primary {
+    background-color: rgba(0, 70, 156, 0.1);
+    color: var(--primary-color);
+    font-weight: bold;
+    border-radius: 16px;
+    padding: 4px 16px;
+    margin-left: 24px;
+    margin-right: 16px;
+}
+
+.modal-content .card-status {
+    position: relative;
+    top: -4px;
+}
+
+.modal-content p {
+    color: var(--icon-color);
+}
+
+.modal-content .doc-info {
+    margin: 32px 0px;
+}
+
+.modal-content .card-info {
+    padding: 10px 0px;
+}
+
+.modal-content footer {
+    gap: 1rem;
+}

@@ -382,14 +382,27 @@ var app = new Vue({
             'descricao': 'Centro de Custo #5'
         }],
         selectedDoc: null,
-        virtualApports: null
+        virtualApports: null,
+        filterText: ''
     },
     computed: {
         titulos: function() {
             return this.titulosData.map((t) => this.parseTitulo(t));
         },
+        filteredTitulos: function() {
+            return this.filterTitulosUsingTextFilter(
+                this.titulosData.map((t) => this.parseTitulo(t)),
+                this.filterText
+            );
+        },
         lancamentos: function() {
             return this.lancamentosData.map((l) => this.parseLancamento(l));
+        },
+        filteredLancamentos: function() {
+            return this.filterLancamentosUsingTextFilter(
+                this.lancamentosData.map((l) => this.parseLancamento(l)),
+                this.filterText
+            );
         },
         titulosIsActive: function() {
             return this.selector == 'T';
@@ -412,6 +425,9 @@ var app = new Vue({
                 this.apportsValues(this.selectedDoc.rateios),
                 this.apportsValues(this.virtualApports)
             );
+        },
+        filterPlaceholder: function() {
+            return `Pesquisar por ${this.selector == 'T' ? 'n\u00FAmero' : 'documento'}, estabelecimento ou valor`;
         }
     },
     filters: {
@@ -471,13 +487,28 @@ var app = new Vue({
             })(this.parseDocumento(t));
         },
         parseLancamento: function(l) {
-            (function (lanc) {
+            return (function (lanc) {
                 lanc.documento = l.documento;
                 lanc.conta = l.conta.codigo + ' - ' + l.conta.numero;
                 lanc.historico = l.historico;
                 lanc.data = l.data;
                 return lanc;
             })(this.parseDocumento(l));
+        },
+        filterTitulosUsingTextFilter: function(titulosList, textFilter) {
+            return (textFilter && (textFilter.trim().length > 0))
+                ? titulosList.filter(t => Number(t.valor).toFixed(2).replace('.', ',').includes(textFilter)
+                    || t.numero.toLowerCase().includes(textFilter.toLowerCase())
+                    || t.estabelecimento.toLowerCase().includes(textFilter.toLowerCase()))
+                : titulosList;
+        },
+        filterLancamentosUsingTextFilter: function(lancamentosList, textFilter) {
+            return (textFilter && (textFilter.trim().length > 0))
+                ? lancamentosList.filter(t => Number(t.valor).toFixed(2).replace('.', ',').includes(textFilter)
+                    || t.documento.toLowerCase().includes(textFilter.toLowerCase())
+                    || t.estabelecimento.toLowerCase().includes(textFilter.toLowerCase())
+                    || t.historico.toLowerCase().includes(textFilter.toLowerCase()))
+                : lancamentosList;
         },
         copyObj: function(obj) {
             if (typeof obj == 'object')

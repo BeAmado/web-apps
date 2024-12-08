@@ -1,0 +1,87 @@
+.cards-list {
+    border: 2px solid #ddd;
+    border-radius: 16px;
+    border-left: none;
+    box-shadow: inset 4px 0px var(--primary-color);
+}
+
+.cards-list > li {
+    border-bottom: 2px solid var(--brdr-color);
+    display: flex;
+    flex-direction: row;
+}
+
+.cards-list > li:last-child {
+    border-bottom: none;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    padding: 8px 16px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 10px;
+}
+
+.card-info input {
+    border: none;
+    background-color: transparent;
+}
+
+.card-info input[type="number"]::-webkit-outer-spin-button,
+.card-info input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.card-info input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.card-status {
+    border-radius: 10px;
+    text-align: center;
+    padding: 4px 16px;
+    font-size: 0.5rem;
+    font-weight: bold;
+}
+
+.card-status.warning {
+    background-color: var(--warning-color);
+}
+
+.card-status.success {
+    background-color: var(--success-color);
+    color: var(--bgnd-color)
+}
+
+.card-info label {
+    padding-bottom: 4px;
+}
+
+.card-info.primary label {
+    display: none;
+}
+
+.card-info.primary input {
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding-top: 4px;
+    color: var(--primary-color);
+}
+
+.card-info label:hover,
+.card-info input:hover {
+    cursor: inherit;
+}
+
+.eager-info {
+    flex-grow: 1;
+    min-width: 200px;
+}
