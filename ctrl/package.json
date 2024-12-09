@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clear-mini": "rm -r mini/*",
+    "clear-mini": "if [ -d mini ]; then rm -r mini/*; fi;",
     "copy-assets": "sh ./scripts/copy-assets.sh",
     "copy-to-minify": "sh ./scripts/copy-to-minify.sh",
     "minify": "npx webpack",

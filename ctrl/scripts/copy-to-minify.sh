@@ -3,9 +3,9 @@
 if [ ! -d to-minify ]
 then
     mkdir to-minify
+else
+    rm -r to-minify/*
 fi
-
-rm -r to-minify/*
 
 for ftype in \
     pages \

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+npm install
 npm run clear-mini
 npm run copy-to-minify
 npm run minify
