@@ -23,6 +23,15 @@ module.exports = {
       filename: 'pages/not-apportioned.html',
       chunks: ['notApportioned']
     }),
+    new HtmlWebpackPlugin({
+      minify: {
+        collapseWhitespace: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+      },
+      template: './raw/pages/index.html',
+      filename: 'pages/index.html',
+    }),
     /*new HtmlWebpackPlugin({
       template: './src/page2.html',
       filename: 'page2.html',
