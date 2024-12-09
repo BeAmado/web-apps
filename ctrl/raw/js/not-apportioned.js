@@ -426,7 +426,7 @@ var app = new Vue({
             );
         },
         filterPlaceholder: function() {
-            return `Pesquisar por ${this.selector == 'T' ? 'n\u00FAmero' : 'documento'}, estabelecimento ou valor`;
+            return `Pesquisar por ${this.selector == 'T' ? 'n\u00FAmero' : 'documento, hist\u00F3rico'}, estabelecimento ou valor`;
         }
     },
     filters: {

@@ -10,9 +10,9 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link type="text/css" href="https://fonts.googleapis.com/css2?family=family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
-    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+      crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="../css/nhids.css" />
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/navbar.css" />
@@ -22,8 +22,6 @@
     <link rel="stylesheet" href="../css/apportionments.css" />
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16"></script>
     <title>Documentos n&atilde;o rateados</title>
-
-    <script src="../js/not-apportioned.js"></script>
   </head>
   <body>
     <header>
@@ -144,7 +142,7 @@
                   <input class="card-data"
                     type="text"
                     readonly="readonly"
-                    size="8"
+                    size="5"
                     v-model="titulo.fluxo"/>
                 </li>
                 <li class="card-info">
@@ -152,7 +150,7 @@
                   <input class="card-data"
                     type="number"
                     readonly="readonly"
-                    size="10"
+                    size="5"
                     v-model="titulo.valor" />
                 </li>
                 <li class="card-info eager-info">
@@ -180,7 +178,7 @@
                   <input class="card-data"
                     type="text"
                     readonly="readonly"
-                    size="10"
+                    size="8"
                     v-model="lancamento.documento" />
                 </li>
                 <li class="card-info">
@@ -196,7 +194,7 @@
                   <input class="card-data"
                     type="text"
                     readonly="readonly"
-                    size="8"
+                    size="4"
                     v-model="lancamento.fluxo" />
                 </li>
                 <li class="card-info">
@@ -219,7 +217,7 @@
                   <input class="card-data"
                     type="number"
                     readonly="readonly"
-                    size="10"
+                    size="6"
                     v-model="lancamento.valor" />
                 </li>
                 <li class="card-info eager-info">
@@ -268,7 +266,7 @@
                   <input class="card-data"
                     type="text"
                     readonly="readonly"
-                    size="8"
+                    size="5"
                     v-model="selectedDoc.fluxo"/>
                 </li>
                 <li class="card-info">
@@ -276,7 +274,7 @@
                   <input class="card-data"
                     type="number"
                     readonly="readonly"
-                    size="10"
+                    size="8"
                     v-model="selectedDoc.valor" />
                 </li>
                 <li class="card-info eager-info">
@@ -301,7 +299,7 @@
                   <input class="card-data"
                     type="text"
                     readonly="readonly"
-                    size="8"
+                    size="5"
                     v-model="selectedDoc.fluxo" />
                 </li>
                 <li class="card-info">
@@ -324,7 +322,7 @@
                   <input class="card-data"
                     type="number"
                     readonly="readonly"
-                    size="10"
+                    size="8"
                     v-model="selectedDoc.valor" />
                 </li>
                 <li class="card-info eager-info">
@@ -501,11 +499,11 @@
             </section>
           </main>
           <footer class="flex-container justify-right">
+            <button class="action-btn secondary-btn clickable"
+              v-on:click="closeModal">Fechar</button>
             <button class="action-btn primary-btn clickable"
               v-on:click="saveApports"
               v-if="changedApports">Salvar</button>
-            <button class="action-btn secondary-btn clickable"
-              v-on:click="closeModal">Fechar</button>
           </footer>
         </article>
       </div>
@@ -513,5 +511,7 @@
 
 
     <footer></footer>
+
+    <script src="../js/not-apportioned.js"></script>
   </body>
 </html>

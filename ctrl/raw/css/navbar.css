@@ -12,6 +12,11 @@
     display: inline-block;
 }
 
+.navbar .upper-label .upper-label,
+.navbar .upper-label .upper-label + * {
+    font-size: 1em;
+}
+
 .navbar select {
     border: none;
     background-color: inherit;

@@ -6,7 +6,7 @@
 
 .filtering {
     padding-bottom: 16px;
-    /*position: sticky;*/
+    position: sticky;
     top: 40px;
     background-color: var(--bgnd-color);
     z-index: 10;

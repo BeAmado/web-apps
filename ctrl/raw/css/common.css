@@ -79,13 +79,13 @@ button.tertiary.danger,
 
 .upper-label {
     position: relative;
-    font-size: 0.5rem;
+    font-size: 0.5em;
     display: block;
     font-weight: bold;
 }
 
 .upper-label + * {
-    font-size: 0.5rem;
+    font-size: 0.5em;
 }
 
 .left-floating {

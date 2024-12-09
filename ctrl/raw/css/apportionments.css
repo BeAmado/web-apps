@@ -1,6 +1,6 @@
 #rateios {
     margin: 32px 0px;
-    font-size: 0.8em;
+    font-size: 1em;
 }
 
 #rateios header {
@@ -10,8 +10,9 @@
 }
 
 #rateios header p {
-    color: var(--brdr-color);
+    color: rgba(120, 120, 120, 0.4);
     font-weight: bold;
+    font-size: 1em;
 }
 
 #rateios p {

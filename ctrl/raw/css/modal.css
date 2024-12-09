@@ -23,6 +23,14 @@
     max-height: 90%;
 }
 
+.modal-content .upper-label, .modal-content .upper-label + * {
+    font-size: 1.2em;
+}
+
+.modal-content .data-info {
+    gap: 2em;
+}
+
 .modal-content header > * {
     display: inline-flex;
 }

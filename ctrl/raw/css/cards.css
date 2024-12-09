@@ -3,12 +3,13 @@
     border-radius: 16px;
     border-left: none;
     box-shadow: inset 4px 0px var(--primary-color);
+    font-size: 1.6em;
 }
 
 .cards-list > li {
-    border-bottom: 2px solid var(--brdr-color);
     display: flex;
     flex-direction: row;
+    padding-left: 4px;
 }
 
 .cards-list > li:last-child {
@@ -19,6 +20,14 @@
     width: 100%;
     height: 100%;
     padding: 8px 16px;
+}
+
+.cards-list .card {
+    border-bottom: 2px solid var(--brdr-color);
+}
+
+.data-info {
+    gap: 0.5em;
 }
 
 .card-info {
@@ -70,9 +79,9 @@
 }
 
 .card-info.primary input {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: bold;
-    padding-top: 4px;
+    padding-top: 8px;
     color: var(--primary-color);
 }
 
