@@ -1,0 +1,130 @@
+/* ------ undo DHX styling ------- */
+
+.nhids-cards-list-container .dhx_list-item {
+    padding: 0px !important;
+}
+
+/*.dhx_list-item--focus,*/
+.nhids-cards-list-container .dhx_list-item--selected:hover,
+.nhids-cards-list-container .dhx_list-item:hover {
+    background-color: var(--clickable-bgnd-hover-color) !important;
+}
+
+.nhids-cards-list-container .dhx_list-item--selected:hover .card.clickable,
+.nhids-cards-list-container .dhx_list-item:hover .card.clickable {
+   background-color: none !important;
+}
+
+/* ------------------------------- */
+
+.nhids-cards-list-container {
+    padding-left: 4px;
+}
+
+.nhids-cards-list-container .dhx_list {
+    border: 2px solid var(--brdr-color);
+    border-radius: 16px;
+    border-left: none;
+    box-shadow: -4px 0px var(--primary-color);
+    font-size: 1.6em;
+}
+
+.nhids-cards-list-container .dhx_list-item {
+    display: flex;
+    flex-direction: row;
+    border: none;
+}
+
+.nhids-cards-list-container .dhx_list-item:last-of-type .card {
+    border-bottom: none;
+}
+
+.nhids-cards-list-container .card {
+    border-bottom: 2px solid var(--brdr-color);
+    width: 100%;
+    height: 100%;
+}
+
+.nhids-cards-list-container .upper-label {
+    display: block;
+}
+
+.nhids-cards-list-container .upper-label + * {
+    font-size: 0.5em;
+}
+
+.nhids-cards-list-container .data-info {
+    gap: 0.5em;
+}
+
+.nhids-cards-list-container .card-info {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+    padding-bottom: 16px;
+}
+
+.nhids-cards-list-container .card-info input {
+    border: none;
+    background-color: transparent;
+}
+
+.nhids-cards-list-container .card-info input[type="number"]::-webkit-outer-spin-button,
+.nhids-cards-list-container .card-info input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.nhids-cards-list-container .card-info input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.nhids-cards-list-container .card-tip {
+    /*display: flex;
+    flex-direction: column;*/
+    border-radius: 16px;
+    text-align: center;
+    font-size: 0.5rem;
+    font-weight: bold;
+    margin: 0px 8px;
+    margin-top: 8px;
+    padding: 2px 8px; 
+}
+
+.nhids-cards-list-container .card-status.warning {
+    background-color: var(--warning-color);
+}
+
+.nhids-cards-list-container .card-status.success {
+    background-color: var(--success-color);
+    color: var(--bgnd-color)
+}
+
+.nhids-cards-list-container .card-info label {
+    padding-bottom: 4px;
+}
+
+.nhids-cards-list-container .card-info.primary label {
+    display: none;
+}
+
+.nhids-cards-list-container .card-info.primary input,
+.nhids-cards-list-container .card-info.primary span {
+    font-size: 0.7em;
+    font-weight: bold;
+    padding-top: 12px;
+    color: var(--primary-color);
+}
+
+.nhids-cards-list-container .card-info label:hover,
+.nhids-cards-list-container .card-info input:hover,
+.nhids-cards-list-container .card-info span:hover {
+    cursor: inherit;
+}
+
+.nhids-cards-list-container .eager-info {
+    flex-grow: 1;
+    min-width: 200px;
+}
