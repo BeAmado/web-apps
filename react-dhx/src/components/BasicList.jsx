@@ -7,7 +7,7 @@ export default function BasicListComponent({
     configDhxList,
     listData,
     templateMethod,
-    key
+    pkey
 }) {
     const [list, setList] = useState(null);
     const lNode = useRef(null);
@@ -17,12 +17,12 @@ export default function BasicListComponent({
         keyNavigation: true,
         template: templateMethod || ((item) => ''
             + '<ul class="inline-list"><li>'
-            +  Object.keys(item)
-                .map(attr => `${attr}: ${item[attr]}`)
+            +  Object.keys(item.data || item)
+                .map(attr => `${attr}: ${(item.data || item)[attr]}`)
                 .join('</li><li>')
             + '</li></ul>')
     }), []);
-    const pk = (obj) => (key) ? obj[key] : obj[Object.keys(obj)[0]];
+    const pk = (obj) => (pkey) ? obj[pkey] : obj[Object.keys(obj)[0]];
     const decorateData = function(obj) {
         return {
             data: obj,
@@ -38,9 +38,8 @@ export default function BasicListComponent({
 
     useEffect(() => {
         list?.events.on('click', (id, e) => {
-            console.log('Clicked the list');
             console.log('id', id);
-            console.log('data', listData.filter(d => pk(d) == id));
+            console.log('data', listData.filter(d => pk(d) == id)[0]);
         });
         list?.data.parse(listData.map(decorateData));
     }, [list, listData]);

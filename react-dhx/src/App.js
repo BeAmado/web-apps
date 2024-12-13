@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import "@dhx/trial-suite/codebase/suite.min.css";
 import './nhids.css';
 import CardsList from './components/CardsList';
-import { DateUtil } from './js/utils';
+import { DateUtil, ObjectUtil } from './js/utils';
 //import "./App.css";
 
 const App = () => {
@@ -134,19 +134,24 @@ const App = () => {
             <section id="grid-example">
                 <h2>BasicGrid element</h2>
                 <BasicGrid
-                    gridData={titulos}
+                    gridData={ObjectUtil.copy(titulos)}
                     config={gridConfig}
                 />
             </section>
             <section id="list-example">
                 <h2>BasicList element</h2>
                 <BasicList
-                    listData={titulos}
+                    listData={ObjectUtil.copy(titulos)}
+                    pkey="numero"
                 />
             </section>
             <section id="cards-list-example">
                 <h2>CardsList element</h2>
-                <CardsList listData={titulos} dataDef={cardsListDataDef} />
+                <CardsList
+                    listData={ObjectUtil.copy(titulos)}
+                    dataDef={cardsListDataDef}
+                    pkey="numero"
+                />
             </section>
         </main>
     );

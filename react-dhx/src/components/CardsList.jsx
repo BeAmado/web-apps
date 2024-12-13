@@ -5,14 +5,15 @@ import './CardsList.css';
 export default function CardsList({
     config,
     listData,
-    dataDef
+    dataDef,
+    pkey
 }) {
     const cardsListTemplate = useCallback(
         (item) => '<div class="card clickable">'
             + '<ul class="tips inline-list">'
             + (dataDef.tips || []).map(tip => `
-                <li class="card-tip ${tip.mainClass} ${(tip.calculateClasses || ((obj) => []))(item.data).join(' ')}">
-                    ${(tip.calculateValue || ((obj) => obj[tip.attr]))(item.data)}
+                <li class="card-tip ${tip.mainClass} ${(tip.calculateClasses || ((obj) => []))(item?.data || item).join(' ')}">
+                    ${(tip.calculateValue || ((obj) => obj[tip.attr]))(item?.data || item)}
                 </li>
             `).join('')
             + '</ul>'
@@ -24,7 +25,7 @@ export default function CardsList({
                         ${field.primary ? 'aria-hidden="false"': ''}
                     >${field.label}</label>
                     <span class="card-data">
-                        ${(field.calculateValue || ((obj) => obj[field.attr]))(item.data)}
+                        ${(field.calculateValue || ((obj) => obj[field.attr]))(item?.data || item)}
                     </span>
                 </li>
             `).join('')
@@ -38,6 +39,7 @@ export default function CardsList({
                 config={config}
                 listData={listData}
                 templateMethod={cardsListTemplate}
+                pkey={pkey}
             />
         </div>
     );
