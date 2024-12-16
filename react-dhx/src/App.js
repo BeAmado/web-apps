@@ -1,100 +1,55 @@
-//import MainContainer from "./dhx-demo/MainContainer";
+import { useEffect, useState } from 'react';
 import BasicGrid from './components/BasicGrid';
 import BasicList from './components/BasicList';
-import { useCallback, useEffect, useState } from 'react';
-//import Sidebar from "./Sidebar";
 import "@dhx/trial-suite/codebase/suite.min.css";
 import './nhids.css';
 import CardsList from './components/CardsList';
 import { DateUtil, ObjectUtil } from './js/utils';
-//import "./App.css";
+import useFetch from './js/useFetch';
 
 const App = () => {
-    const titulosPromise = useCallback(() => new Promise((resolve, reject) => {
-        try {
-            resolve([{
-                numero: 'abc123',
-                valor: 189.09,
-                emissao: new Date('Jan 12, 2024'),
-                vencimento: new Date('Jan 31, 2024'),
-                fluxo: 'Entrada',
-                estabelecimento: 'AUT - Austin'
-            }, {
-                numero: 'kwy888',
-                valor: 445.50,
-                emissao: new Date('Jan 4, 2024'),
-                vencimento: new Date('Jan 31, 2024'),
-                fluxo: 'Entrada',
-                estabelecimento: 'AUT - Austin'
-            }, {
-                numero: 'def456',
-                valor: 229.59,
-                emissao: new Date('Mar 3, 2024'),
-                vencimento: new Date('Mar 31, 2024'),
-                fluxo: 'Entrada',
-                estabelecimento: 'AUT - Austin'
-            }, {
-                numero: 'ghi789',
-                valor: 230.49,
-                emissao: new Date('Nov 12, 2024'),
-                vencimento: new Date('Nov 30, 2024'),
-                fluxo: 'Entrada',
-                estabelecimento: 'AUT - Austin'
-            }, {
-                numero: 'zzz000',
-                valor: 139.90,
-                emissao: new Date('Jun 12, 2024'),
-                vencimento: new Date('Jun 30, 2024'),
-                fluxo: 'Entrada',
-                estabelecimento: 'AUT - Austin'
-            }]);
-        } catch (error) {
-            reject(error);
-        }
-    }), []);
+    const parseTitulo = (t) => ObjectUtil.parse(t, {
+        'vencimento': 'date',
+        'emissao': 'date',
+    });
+    const { data: fetchedTitulos, isLoading, error } = useFetch('http://localhost:3001/titulos');
     const [titulos, setTitulos] = useState([]);
+
     useEffect(() => {
-        titulosPromise()
-        .then(data => { setTitulos(data); })
-        .catch(err => console.log('Erro ao recuperar os titulos', err));
-    }, [])
+        if (fetchedTitulos)
+            setTitulos(fetchedTitulos.map(parseTitulo));
+    }, [fetchedTitulos]);
 
     const gridConfig = {
         autoWidth: true,
         columns: [
-        /*{
-            gravity: 2,
-            id: "time",
-            header: [{ text: "Time", align: "center" }],
-            type: "date",
-            dateFormat: "%M %d, %H:%i",
-        },*/
-        { id: "numero", header: [{ text: "Numero" }] },
-        {
-            id: "valor",
-            header: [{ text: "Valor" }],
-            type: "number",
-            numberMask: {
-            prefix: "R$",
+            { id: "numero", header: [{ text: "Numero" }] },
+            { id: 'fluxo', header: [{ text: 'Fluxo' }]},
+            {
+                id: "emissao",
+                header: [{ text: "Data de emissao" }],
+                type: 'date',
+                dateFormat: '%d/%m/%Y',
             },
-        },
-        {
-            id: "emissao",
-            header: [{ text: "Data de emissao" }],
-            type: 'date',
-            dateFormat: '%d/%m/%Y',
-        },
-        {
-            id: "vencimento",
-            header: [{ text: "Data de vencimento" }],
-            type: 'date',
-            dateFormat: '%d/%m/%Y',
-        },
+            {
+                id: "vencimento",
+                header: [{ text: "Data de vencimento" }],
+                type: 'date',
+                dateFormat: '%d/%m/%Y',
+            },
+            {
+                id: "valor",
+                header: [{ text: "Valor" }],
+                type: "number",
+                numberMask: { prefix: "R$" },
+            },
+            { id: 'estabelecimento', header: [{ text: 'Estabelecimento' }] },
         ],
+        tooltip: false,
         //css: "grid",
-        multiselection: true,
-        selection: "complex",
-        editable: true,
+        //multiselection: true,
+        selection: "row",
+        //editable: true,
     };
     const cardsListDataDef = {
         tips: [
@@ -136,6 +91,8 @@ const App = () => {
                 <BasicGrid
                     gridData={ObjectUtil.copy(titulos)}
                     config={gridConfig}
+                    pkey="id"
+                    dblClick={(t) => console.log('titulo', t)}
                 />
             </section>
             <section id="list-example">

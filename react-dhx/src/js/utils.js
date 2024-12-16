@@ -30,6 +30,27 @@ const ObjectUtil = {
         }
         else
             return obj;
+    },
+    parseDate: function(d) {
+        return new Date(d);
+    },
+    parse: function(obj, parseAttributes) {
+        if (!obj)
+            return obj;
+        const newObj = {};
+        Object.keys(obj).forEach(attr => {
+            if (attr in parseAttributes) {
+                if (parseAttributes[attr] == 'date')
+                    newObj[attr] = this.parseDate(obj[attr]);
+                else if (parseAttributes[attr] in this)
+                    newObj[attr] = this[parseAttributes[attr]](obj[attr]);
+                else
+                    newObj[attr] = parseAttributes[attr](obj[attr]);
+            }
+            else
+                newObj[attr] = this.copy(obj[attr]);
+        });
+        return newObj;
     }
 }
 
